@@ -81,6 +81,7 @@ COPY templates /app/templates
 COPY scripts /app/scripts
 RUN bash scripts/protoc.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,components,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents,usage
 RUN bash scripts/protoc_gateway.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents
+RUN bash scripts/protoc_openapi_spec.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents
 RUN rm -rf build && go build -o build/superplane cmd/server/main.go
 
 WORKDIR /app/web_src
@@ -88,6 +89,7 @@ RUN if [ "$FRONTEND_PREBUILT" = "1" ]; then \
       echo "Using prebuilt frontend assets from build context"; \
     else \
       npm install && \
+      npm run generate:api && \
       if [ -n "$VITE_ASSET_BASE_URL" ]; then \
         VITE_BASE_URL=$BASE_URL VITE_ASSET_BASE_URL=$VITE_ASSET_BASE_URL npm run build; \
       else \

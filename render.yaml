@@ -38,9 +38,9 @@ services:
       - key: POSTGRES_DB_SSL
         value: "false"
       - key: ENCRYPTION_KEY
-        value: "4921649a81a69b2dacd02612ddb4d62f"
+        generateValue: true
       - key: JWT_SECRET
-        value: "ea6726386a4e9cfb911023a8a783f80a"
+        generateValue: true
       - key: BASE_URL
         value: "https://superplane.onrender.com"
       - key: WEBHOOKS_BASE_URL

@@ -79,6 +79,7 @@ COPY api/swagger /app/api/swagger
 COPY rbac /app/rbac
 COPY templates /app/templates
 COPY scripts /app/scripts
+COPY test /app/test
 RUN bash scripts/protoc.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,components,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents,usage
 RUN bash scripts/protoc_gateway.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents
 RUN bash scripts/protoc_openapi_spec.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents

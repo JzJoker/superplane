@@ -78,6 +78,8 @@ COPY protos /app/protos
 COPY api/swagger /app/api/swagger
 COPY rbac /app/rbac
 COPY templates /app/templates
+COPY scripts /app/scripts
+RUN bash scripts/protoc.sh authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,components,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents,usage
 RUN rm -rf build && go build -o build/superplane cmd/server/main.go
 
 WORKDIR /app/web_src

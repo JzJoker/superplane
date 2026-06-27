@@ -37,3 +37,17 @@ services:
           property: database
       - key: POSTGRES_DB_SSL
         value: "false"
+      - key: ENCRYPTION_KEY
+        value: "4921649a81a69b2dacd02612ddb4d62f"
+      - key: JWT_SECRET
+        value: "ea6726386a4e9cfb911023a8a783f80a"
+      - key: BASE_URL
+        value: "https://superplane.onrender.com"
+      - key: WEBHOOKS_BASE_URL
+        value: "https://superplane.onrender.com"
+      - key: PUBLIC_API_BASE_PATH
+        value: "/api/v1"
+      - key: START_PUBLIC_API
+        value: "yes"
+      - key: OIDC_KEYS_PATH
+        value: "/app/test/fixtures/oidc-keys"

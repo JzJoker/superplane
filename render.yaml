@@ -55,3 +55,45 @@ services:
         value: "/app/rbac/rbac_model.conf"
       - key: RBAC_ORG_POLICY_PATH
         value: "/app/rbac/rbac_org_policy.csv"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: APP_ENV
+        value: "production"
+      - key: ENABLE_PASSWORD_LOGIN
+        value: "yes"
+      - key: OWNER_SETUP_ENABLED
+        value: "yes"
+      - key: BLOCK_SIGNUP
+        value: "no"
+      - key: SWAGGER_BASE_PATH
+        value: "/app/api/swagger"
+      - key: TEMPLATE_DIR
+        value: "/app/templates"
+      - key: ALLOWED_WS_ORIGINS
+        value: "https://superplane.onrender.com"
+      - key: START_PUBLIC_API
+        value: "yes"
+      - key: START_WEB_SERVER
+        value: "yes"
+      - key: START_CONSUMERS
+        value: "yes"
+      - key: START_NODE_EXECUTOR
+        value: "yes"
+      - key: START_NODE_QUEUE_WORKER
+        value: "yes"
+      - key: START_NODE_REQUEST_WORKER
+        value: "yes"
+      - key: START_EVENT_ROUTER
+        value: "yes"
+      - key: START_EVENT_DISTRIBUTER
+        value: "yes"
+      - key: START_RUN_FINALIZER
+        value: "yes"
+      - key: START_WEBHOOK_PROVISIONER
+        value: "yes"
+      - key: START_REPOSITORY_PROVISIONER
+        value: "yes"
+      - key: GIT_STORAGE_PROVIDER
+        value: "supergit"
+      - key: GIT_STORAGE_SUPERGIT_BASE_URL
+        value: ""

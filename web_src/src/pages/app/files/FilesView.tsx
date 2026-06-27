@@ -100,6 +100,7 @@ export function FilesView({
           loading={editor.editorLoading}
           errorMessage={editor.editorErrorMessage}
           disabled={editor.editorDisabled}
+          canvasId={canvasId}
           onChange={editor.updateSelectedContent}
         />
       </main>

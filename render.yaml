@@ -75,23 +75,25 @@ services:
         value: "yes"
       - key: START_WEB_SERVER
         value: "yes"
+      - key: RABBITMQ_URL
+        value: "amqp://disabled:disabled@localhost:5672"
       - key: START_CONSUMERS
-        value: "yes"
+        value: "no"
       - key: START_NODE_EXECUTOR
-        value: "yes"
+        value: "no"
       - key: START_NODE_QUEUE_WORKER
-        value: "yes"
+        value: "no"
       - key: START_NODE_REQUEST_WORKER
-        value: "yes"
+        value: "no"
       - key: START_EVENT_ROUTER
-        value: "yes"
+        value: "no"
       - key: START_EVENT_DISTRIBUTER
-        value: "yes"
+        value: "no"
       - key: START_RUN_FINALIZER
-        value: "yes"
+        value: "no"
       - key: START_WEBHOOK_PROVISIONER
-        value: "yes"
+        value: "no"
       - key: START_REPOSITORY_PROVISIONER
-        value: "yes"
+        value: "no"
       - key: GIT_STORAGE_PROVIDER
         value: "inmemory"

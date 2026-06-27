@@ -1,9 +1,11 @@
+import type { ComponentProps } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
+import { MermaidWidget } from "@/components/AgentSidebar/widgets/MermaidWidget";
 import { cn } from "@/lib/utils";
 
 /**
@@ -65,14 +67,55 @@ interface MarkdownContentProps {
  * so file viewers render exactly what's on disk (e.g. an indented code block
  * at the very start of a file stays an indented code block).
  */
+/**
+ * Custom code component for MarkdownContent. Detects fenced mermaid code
+ * blocks and delegates them to MermaidWidget; other fenced blocks get a plain
+ * styled pre>code box; inline code keeps its default styling.
+ *
+ * The `pre` component below is set to a transparent passthrough so this
+ * component can control the full presentation of fenced blocks.
+ */
+function MarkdownFileCode({ className, children, ...props }: ComponentProps<"code">) {
+  const match = /language-(\w+)/.exec(className ?? "");
+  const code = String(children).replace(/\n$/, "");
+
+  if (match?.[1] === "mermaid") {
+    return <MermaidWidget content={code} />;
+  }
+
+  if (match) {
+    // Fenced non-mermaid block: render a styled pre>code since <pre> is transparent.
+    return (
+      <pre className="my-2 overflow-auto rounded bg-slate-100 p-2">
+        <code className={className} {...props}>
+          {children}
+        </code>
+      </pre>
+    );
+  }
+
+  // Inline code: pass through with the default styling from MARKDOWN_CONTENT_CLASSES.
+  return (
+    <code className={className} {...props}>
+      {children}
+    </code>
+  );
+}
+
 export function MarkdownContent({ content, className, "data-testid": dataTestId }: MarkdownContentProps) {
   const normalized = content.replace(/\r\n/g, "\n");
   if (!normalized.trim()) return null;
   return (
-    <div className={cn(MARKDOWN_CONTENT_CLASSES, className)} data-testid={dataTestId}>
+    <div className={cn("markdown-viewer", MARKDOWN_CONTENT_CLASSES, className)} data-testid={dataTestId}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkBreaks]}
         rehypePlugins={[rehypeRaw, [rehypeSanitize, MARKDOWN_SANITIZE_SCHEMA]]}
+        components={{
+          code: MarkdownFileCode,
+          // Transparent passthrough: MarkdownFileCode renders its own <pre> for
+          // fenced blocks; mermaid blocks render inline via MermaidWidget.
+          pre: ({ children }) => <>{children}</>,
+        }}
       >
         {normalized}
       </ReactMarkdown>

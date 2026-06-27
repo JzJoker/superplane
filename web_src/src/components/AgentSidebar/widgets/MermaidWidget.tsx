@@ -86,7 +86,7 @@ export function MermaidWidget({ content }: MermaidWidgetProps) {
         onClick={() => setExpanded(true)}
         className="my-4 w-full min-w-0 rounded-lg border border-slate-200 bg-white p-3 overflow-x-auto cursor-pointer hover:border-slate-300 transition-colors [&_svg]:max-w-full [&_svg]:h-auto [&_svg]:mx-auto"
       >
-        <div className="pointer-events-none" dangerouslySetInnerHTML={{ __html: svg }} />
+        <div className="mermaid pointer-events-none" dangerouslySetInnerHTML={{ __html: svg }} />
       </div>
 
       <Dialog open={expanded} onOpenChange={setExpanded}>

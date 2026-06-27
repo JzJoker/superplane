@@ -7,6 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/superplanehq/superplane/pkg/git/codestorage"
+	"github.com/superplanehq/superplane/pkg/git/inmemory"
 	"github.com/superplanehq/superplane/pkg/git/provider"
 	"github.com/superplanehq/superplane/pkg/git/supergit"
 )
@@ -24,6 +25,9 @@ func NewProvider() (provider.Provider, error) {
 	case provider.SuperGitProvider:
 		log.Println("Creating SuperGit Provider")
 		return supergit.NewProvider()
+	case "inmemory":
+		log.Println("Creating InMemory Provider")
+		return inmemory.NewProvider(), nil
 	default:
 		return nil, fmt.Errorf("unsupported git storage provider %q", gitProvider)
 	}

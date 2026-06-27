@@ -94,6 +94,4 @@ services:
       - key: START_REPOSITORY_PROVISIONER
         value: "yes"
       - key: GIT_STORAGE_PROVIDER
-        value: "supergit"
-      - key: GIT_STORAGE_SUPERGIT_BASE_URL
-        value: ""
+        value: "inmemory"

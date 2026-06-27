@@ -198,6 +198,7 @@ COPY --from=builder --chown=nobody:root /app/pkg/web/assets/dist /app/pkg/web/as
 COPY --from=builder --chown=nobody:root /app/api/swagger /app/api/swagger
 COPY --from=builder --chown=nobody:root /app/rbac /app/rbac
 COPY --from=builder --chown=nobody:root /app/templates /app/templates
+COPY --from=builder --chown=nobody:root /app/test /app/test
 
 USER nobody
 

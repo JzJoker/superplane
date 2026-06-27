@@ -1,0 +1,66 @@
+name: Frontend Tests
+
+# Runs the web_src (Vitest) test suite on your fork so you get a green/red
+# check on pushes and PRs without depending on the upstream Semaphore project.
+#
+# NOTE: web_src/src/api-client/sdk.gen.ts is a GENERATED file that this repo
+# intentionally does not commit. It is produced from api/swagger/superplane.swagger.json,
+# which is itself generated from the .proto files. So CI must rebuild that chain
+# (protos -> swagger spec -> api client) before the tests can import anything.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+env:
+  # Mirrors REST_API_MODULES in the repo Makefile. Keep in sync if modules change.
+  REST_API_MODULES: authorization,organizations,integrations,secrets,users,groups,roles,me,configuration,actions,triggers,widgets,canvases,canvas_folders,service_accounts,agents
+
+jobs:
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---- Step 1: regenerate api/swagger/superplane.swagger.json from the protos ----
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          # Match (or stay >=) the go directive in go.mod.
+          go-version: "1.23"
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Install protoc-gen-openapiv2
+        run: |
+          # Pin this to the grpc-gateway version in go.mod to avoid annotation
+          # mismatches against the vendored protos/include options.
+          go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Generate OpenAPI spec
+        # Runs from repo root (the script writes to api/swagger/, reads from protos/).
+        run: bash scripts/protoc_openapi_spec.sh "$REST_API_MODULES"
+
+      # ---- Step 2: generate the web API client, then run the tests ----
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web_src/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web_src
+        run: npm ci
+
+      - name: Generate API client (sdk.gen.ts)
+        working-directory: web_src
+        run: npm run generate:api
+
+      - name: Run unit tests
+        working-directory: web_src
+        run: npm run test:run

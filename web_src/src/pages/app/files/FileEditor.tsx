@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 
-import { MarkdownContent } from "../Markdown";
+import { MarkdownRenderer } from "@/components/files/MarkdownRenderer";
 import { getFileMonacoLanguage } from "./lib/monaco-language";
 
 const FileMonacoEditor = lazy(() =>
@@ -54,7 +54,7 @@ export function FileEditor({
   if (disabled && isMarkdown) {
     return (
       <div className="min-h-0 flex-1 overflow-auto bg-white p-6">
-        <MarkdownContent content={content} data-testid="file-markdown-preview" />
+        <MarkdownRenderer content={content} data-testid="markdown-preview" />
       </div>
     );
   }

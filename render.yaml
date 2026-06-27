@@ -51,3 +51,7 @@ services:
         value: "yes"
       - key: OIDC_KEYS_PATH
         value: "/app/test/fixtures/oidc-keys"
+      - key: RBAC_MODEL_PATH
+        value: "/app/rbac/rbac_model.conf"
+      - key: RBAC_ORG_POLICY_PATH
+        value: "/app/rbac/rbac_org_policy.csv"

@@ -17,6 +17,7 @@ export function FilesView({
   isEditing,
   canWrite,
   files,
+  organizationId,
   headerActionsSlotId,
   stagingResetNonce,
   suspendRepositoryFileStaging,
@@ -29,6 +30,7 @@ export function FilesView({
   isEditing: boolean;
   canWrite: boolean;
   files: AppFile[];
+  organizationId?: string;
   headerActionsSlotId?: string;
   stagingResetNonce?: number;
   suspendRepositoryFileStaging?: boolean;
@@ -100,6 +102,8 @@ export function FilesView({
           loading={editor.editorLoading}
           errorMessage={editor.editorErrorMessage}
           disabled={editor.editorDisabled}
+          canvasId={canvasId}
+          organizationId={organizationId}
           onChange={editor.updateSelectedContent}
         />
       </main>

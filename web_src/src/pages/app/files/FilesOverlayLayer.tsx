@@ -9,6 +9,7 @@ interface FilesOverlayLayerProps {
   canvasId?: string;
   versionId?: string;
   canWrite?: boolean;
+  organizationId?: string;
   files: AppFile[];
   headerActionsSlotId?: string;
   stagingResetNonce?: number;
@@ -24,6 +25,7 @@ export function FilesOverlayLayer({
   canvasId,
   versionId,
   canWrite = false,
+  organizationId,
   files,
   headerActionsSlotId,
   stagingResetNonce,
@@ -40,6 +42,7 @@ export function FilesOverlayLayer({
       versionId={versionId}
       isEditing={isEditing}
       canWrite={canWrite}
+      organizationId={organizationId}
       files={files}
       headerActionsSlotId={headerActionsSlotId}
       stagingResetNonce={stagingResetNonce}

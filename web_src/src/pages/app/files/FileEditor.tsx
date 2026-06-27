@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 
-import { MarkdownContent } from "../Markdown";
 import { getFileMonacoLanguage } from "./lib/monaco-language";
+import { MarkdownViewer } from "./MarkdownViewer";
 
 const FileMonacoEditor = lazy(() =>
   import("./FileMonacoEditor").then((module) => ({ default: module.FileMonacoEditor })),
@@ -15,6 +15,8 @@ export function FileEditor({
   loading,
   errorMessage,
   disabled,
+  canvasId,
+  organizationId,
   onChange,
 }: {
   path: string | null;
@@ -24,6 +26,8 @@ export function FileEditor({
   loading: boolean;
   errorMessage?: string;
   disabled: boolean;
+  canvasId?: string;
+  organizationId?: string;
   onChange: (value: string) => void;
 }) {
   if (!path) {
@@ -54,7 +58,7 @@ export function FileEditor({
   if (disabled && isMarkdown) {
     return (
       <div className="min-h-0 flex-1 overflow-auto bg-white p-6">
-        <MarkdownContent content={content} data-testid="file-markdown-preview" />
+        <MarkdownViewer content={content} canvasId={canvasId} organizationId={organizationId} />
       </div>
     );
   }

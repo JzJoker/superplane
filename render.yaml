@@ -1,0 +1,39 @@
+databases:
+  - name: superplane-db
+    plan: free
+    databaseName: superplane
+    user: superplane
+
+services:
+  - type: web
+    name: superplane
+    runtime: docker
+    repo: https://github.com/JzJoker/superplane
+    branch: main
+    previews:
+      generation: automatic
+    envVars:
+      - key: APPLICATION_NAME
+        value: superplane
+      - key: DB_HOST
+        fromDatabase:
+          name: superplane-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: superplane-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: superplane-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: superplane-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: superplane-db
+          property: database
+      - key: POSTGRES_DB_SSL
+        value: "false"
